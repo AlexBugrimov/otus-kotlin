@@ -9,6 +9,7 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
 }
 
-include("training:hello")
-rootProject.name = "otus-kotlin"
+includeBuild("lessons")
+includeBuild("pedantic-tenant")
 
+rootProject.name = "pedantic-tenant-app"
