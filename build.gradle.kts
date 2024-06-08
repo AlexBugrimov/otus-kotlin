@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
 }
 
-group = "ru.bugrimov.pedantic_tenant_app"
+group = "ru.bugrimov.wild_tenants_app"
 version = "0.0.1"
 
 repositories {

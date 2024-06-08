@@ -10,6 +10,6 @@ plugins {
 }
 
 includeBuild("lessons")
-includeBuild("pedantic-tenant")
+includeBuild("wild-tenants")
 
-rootProject.name = "pedantic-tenant-app"
+rootProject.name = "wild-tenants-app"
