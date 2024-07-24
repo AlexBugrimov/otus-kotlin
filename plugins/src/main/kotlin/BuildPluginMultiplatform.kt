@@ -1,4 +1,4 @@
-package ru.bugrimov.plugin
+package ru.bugrimov.plugins
 
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Plugin
