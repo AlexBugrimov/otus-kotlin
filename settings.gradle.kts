@@ -10,6 +10,7 @@ plugins {
 }
 
 includeBuild("lessons")
-includeBuild("wild-tenants")
+includeBuild("wild-tenants-be")
+includeBuild("wild-tenants-libs")
 
 rootProject.name = "wild-tenants-app"

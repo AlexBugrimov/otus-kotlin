@@ -1,0 +1,441 @@
+openapi: 3.0.3
+info:
+  title: "Wild Tenants ${VERSION_APP}"
+  description: Это сервис для управления коммунальными платежами
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: ub
+    description: Utility Bill (квитанция об оплате)
+paths:
+  /ub/create:
+    post:
+      tags:
+        - ub
+      summary: Create utility bill
+      operationId: ubCreate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateResponse'
+  /ub/read:
+    post:
+      tags:
+        - ub
+      summary: Read utility bill
+      operationId: ubRead
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadResponse'
+  /ub/update:
+    post:
+      tags:
+        - ub
+      summary: Update utility bill
+      operationId: ubUpdate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateResponse'
+  /ub/delete:
+    post:
+      tags:
+        - ub
+      summary: Delete utility bill
+      operationId: ubDelete
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+  /ub/search:
+    post:
+      tags:
+        - ub
+      summary: Search utility bill
+      operationId: ubSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+
+components:
+  schemas:
+
+    IRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/CreateRequest'
+          read: '#/components/schemas/ReadRequest'
+          update: '#/components/schemas/UpdateRequest'
+          delete: '#/components/schemas/DeleteRequest'
+          search: '#/components/schemas/SearchRequest'
+
+    IResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/CreateResponse'
+          read: '#/components/schemas/ReadResponse'
+          update: '#/components/schemas/UpdateResponse'
+          delete: '#/components/schemas/DeleteResponse'
+          search: '#/components/schemas/SearchResponse'
+          init: '#/components/schemas/InitResponse'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    UserId:
+      type: string
+      description: Идентификатор пользователя
+    UbId:
+      type: string
+      description: Идентификатор квитанции
+    Lock:
+      type: string
+      description: Версия оптимистичной блокировки
+
+    BaseUb:
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        meterReadings:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeterReading'
+        period:
+          $ref: '#/components/schemas/Period'
+
+    MeterReading:
+      type: object
+      description: Показания счетчика
+      properties:
+        name:
+          type: string
+          description: Наименование счетчика
+          enum:
+            - electricity
+            - coldWater
+            - hotWater
+        value:
+          type: number
+          description: Показание счетчика
+        volumeForPeriod:
+          type: number
+          description: Объем за период
+        accruedSum:
+          type: number
+          description: Начисленная сумма
+        paidAmount:
+          type: number
+          description: Оплаченная сумма
+
+    Period:
+      type: object
+      description: Период за который начислена квитанция
+      properties:
+        month:
+          type: string
+          description: Месяц платежа
+          enum:
+            - Jan
+            - Feb
+            - Mar
+            - Apr
+            - May
+            - Jun
+            - Jul
+            - Aug
+            - Sep
+            - Oct
+            - Nov
+            - Dec
+        year:
+          type: integer
+          description: Год платежа
+
+    InitResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+
+    CreateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseUb'
+
+    CreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            ub:
+              $ref: '#/components/schemas/CreateObject'
+
+    ReadObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/UbId'
+
+    ReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            ub:
+              $ref: '#/components/schemas/ReadObject'
+
+    UpdateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseUb'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/UbId'
+            lock:
+              $ref: '#/components/schemas/Lock'
+
+    UpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            ub:
+              $ref: '#/components/schemas/UpdateObject'
+
+    DeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            ub:
+              $ref: '#/components/schemas/DeleteObject'
+
+    DeleteObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/UbId'
+            lock:
+              $ref: '#/components/schemas/Lock'
+
+    SearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/RequestDebug'
+        - type: object
+          properties:
+            ubFilter:
+              $ref: '#/components/schemas/SearchFilter'
+
+    SearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка, которая будет искаться в квитанциях
+        ownerId:
+          $ref: '#/components/schemas/UserId'
+
+    ResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseUb'
+        - type: object
+          description: Объект, который возвращается в ответе backend
+          properties:
+            id:
+              $ref: '#/components/schemas/UbId'
+            ownerId:
+              $ref: '#/components/schemas/UserId'
+            lock:
+              $ref: '#/components/schemas/Lock'
+            permissions:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/Permissions'
+
+    Permissions:
+      type: string
+      description: Доступы для клиента для операций над квитанциями
+      enum:
+        - read
+        - update
+        - delete
+        - makeVisiblePublic
+        - makeVisibleOwn
+        - makeVisibleGroup
+
+    ResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом квитанции
+          properties:
+            ub:
+              $ref: '#/components/schemas/ResponseObject'
+
+    ResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных объектов
+          properties:
+            ubs:
+              type: array
+              items:
+                $ref: '#/components/schemas/ResponseObject'
+
+    CreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ResponseSingle'
+
+    ReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ResponseSingle'
+
+    UpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ResponseSingle'
+
+    DeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ResponseSingle'
+
+    SearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/ResponseMulti'
+
+    RequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/UbDebug'
+
+    UbDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/RequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/RequestDebugStubs'
+
+    RequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    RequestDebugStubs:
+      type: string
+      description: Перечисления всех stubs
+      enum:
+        - success
+        - notFound
+        - badId
+        - badTitle
+        - badDescription
+        - badVisibility
+        - cannotDelete
+        - badSearchString
