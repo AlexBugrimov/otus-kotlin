@@ -10,7 +10,6 @@ pluginManagement {
     includeBuild("../plugins")
     plugins {
         id("build-jvm") apply false
-        id("build-kmp") apply false
     }
     repositories {
         mavenCentral()
@@ -23,5 +22,9 @@ plugins {
 }
 
 rootProject.name = "wild-tenants-libs"
-
-include(":wild-tenants-lib-logging-common")
+include(
+    ":wild-tenants-lib-cor",
+            ":wild-tenants-lib-logging-common",
+            ":wild-tenants-lib-logging-logback",
+           ":wild-tenants-lib-logging-socket"
+)

@@ -1,7 +1,7 @@
-package ru.otus.otuskotlin.marketplace.api.v1
+package ru.bugrimov.otuskotlin.marketplace.api.v1
 
 import ru.bugrimov.wild_tenants.be.api.v1.models.*
-import ru.bugrimov.windtenants.api.v1.apiV1Mapper
+import ru.bugrimov.wt.api.v1.apiV1Mapper
 import java.math.BigDecimal
 import kotlin.test.Test
 import kotlin.test.assertContains

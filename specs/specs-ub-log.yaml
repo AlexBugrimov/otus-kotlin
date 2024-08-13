@@ -20,7 +20,7 @@ components:
           type: string
         source:
           type: string
-        model:
+        ub:
           $ref: '#/components/schemas/LogModel'
         errors:
           type: array
@@ -44,15 +44,15 @@ components:
             - init
             - finish
         request:
-          $ref: '#/components/schemas/Log'
+          $ref: '#/components/schemas/UbLog'
         requestFilter:
-          $ref: '#/components/schemas/FilterLog'
+          $ref: '#/components/schemas/UbFilterLog'
         response:
-          $ref: '#/components/schemas/Log'
+          $ref: '#/components/schemas/UbLog'
         responses:
           type: array
           items:
-            $ref: '#/components/schemas/Log'
+            $ref: '#/components/schemas/UbLog'
 
     ErrorLogModel:
       title: Модель лога для ошибки
@@ -67,9 +67,29 @@ components:
         level:
           type: string
 
-    Log:
+    UbLog:
       type: object
       description: Модель лога для показания счетчика
+      properties:
+        id:
+          type: string
+          description: Идентификатор квитанции
+        meterReadings:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeterReading'
+        period:
+          type: string
+          description: Период
+        permissions:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+
+    MeterReading:
+      type: object
+      description: Показания счетчика
       properties:
         name:
           type: string
@@ -91,7 +111,7 @@ components:
           type: number
           description: Оплаченная сумма
 
-    FilterLog:
+    UbFilterLog:
       title: Модель лога фильтра
       properties:
         searchString:

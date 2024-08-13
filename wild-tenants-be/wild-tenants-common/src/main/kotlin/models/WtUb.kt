@@ -1,4 +1,4 @@
-package ru.bugrimov.windtenants.common.models
+package ru.bugrimov.wt.common.models
 
 data class WtUb(
     var id: WtUbId = WtUbId.NONE,

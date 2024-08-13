@@ -1,6 +1,6 @@
-package ru.bugrimov.windtenants.common.models
+package ru.bugrimov.wt.common.models
 
-import ru.bugrimov.wild_tenants.logging.common.LogLevel
+import ru.bugrimov.wt.logging.common.LogLevel
 
 data class WtError(
     val code: String = "",

@@ -8,8 +8,8 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import ru.bugrimov.wild_tenants.be.api.v1.models.*
-import ru.bugrimov.windtenants.common.WtContext
-import ru.bugrimov.windtenants.common.models.*
+import ru.bugrimov.wt.common.WtContext
+import ru.bugrimov.wt.common.models.*
 import java.math.BigDecimal
 import java.time.Month
 
@@ -41,7 +41,7 @@ class ResponseMappersTest : StringSpec({
             )
         )
 
-        val response = context.toResponse()
+        val response = context.toTransportUb()
 
         response.shouldBeTypeOf<CreateResponse> {
             it.result.shouldNotBeNull {
@@ -70,7 +70,7 @@ class ResponseMappersTest : StringSpec({
             )
         )
 
-        val response = context.toResponse()
+        val response = context.toTransportUb()
 
         response.shouldBeTypeOf<ReadResponse> {
             it.result.shouldNotBeNull {
@@ -101,7 +101,7 @@ class ResponseMappersTest : StringSpec({
             )
         )
 
-        val response = context.toResponse()
+        val response = context.toTransportUb()
         response.shouldBeTypeOf<UpdateResponse> {
             it.result.shouldNotBeNull {
                 shouldBeEqual(ResponseResult.SUCCESS)
@@ -131,7 +131,7 @@ class ResponseMappersTest : StringSpec({
             )
         )
 
-        val response = context.toResponse()
+        val response = context.toTransportUb()
 
         response.shouldBeTypeOf<DeleteResponse> {
             it.result.shouldNotBeNull {
@@ -175,7 +175,7 @@ class ResponseMappersTest : StringSpec({
             )
         )
 
-        val response = context.toResponse()
+        val response = context.toTransportUb()
 
         response.shouldBeTypeOf<SearchResponse> {
             it.result.shouldNotBeNull {
@@ -203,7 +203,7 @@ class ResponseMappersTest : StringSpec({
             )
         )
 
-        val response = context.toResponse()
+        val response = context.toTransportUb()
 
         response.shouldBeTypeOf<InitResponse> {
             it.result.shouldNotBeNull {

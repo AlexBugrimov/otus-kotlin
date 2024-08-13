@@ -2,45 +2,53 @@ package ru.bugrimov.wt.mappers
 
 import kotlinx.datetime.Month
 import ru.bugrimov.wild_tenants.be.api.v1.models.*
-import ru.bugrimov.windtenants.common.WtContext
-import ru.bugrimov.windtenants.common.models.*
-import ru.bugrimov.windtenants.common.stubs.WtStubs
+import ru.bugrimov.wt.common.WtContext
+import ru.bugrimov.wt.common.models.*
+import ru.bugrimov.wt.common.stubs.WtStubs
 
-fun CreateRequest.asContext(): WtContext = WtContext(
-    command = WtCommand.CREATE,
-    request = ub.toInternal(),
-    workMode = debug.toWorkMode(),
-    stubCase = debug.toStubCase()
-)
+fun WtContext.fromTransport(request: IRequest) = when (request) {
+    is CreateRequest -> fromTransport(request)
+    is ReadRequest -> fromTransport(request)
+    is UpdateRequest -> fromTransport(request)
+    is DeleteRequest -> fromTransport(request)
+    is SearchRequest -> fromTransport(request)
+    else -> throw UnknownRequestClass(request.javaClass)
+}
 
-fun ReadRequest.asContext(): WtContext = WtContext(
-    command = WtCommand.READ,
-    request = ub.toInternal(),
-    workMode = debug.toWorkMode(),
-    stubCase = debug.toStubCase()
-)
+fun WtContext.fromTransport(createRequest: CreateRequest) {
+    command = WtCommand.CREATE
+    request = createRequest.ub?.toInternal() ?: WtUb()
+    workMode = createRequest.debug.toWorkMode()
+    stubCase = createRequest.debug.toStubCase()
+}
 
-fun UpdateRequest.asContext(): WtContext = WtContext(
-    command = WtCommand.UPDATE,
-    request = ub.toInternal(),
-    workMode = debug.toWorkMode(),
-    stubCase = debug.toStubCase()
-)
+fun WtContext.fromTransport(readRequest: ReadRequest) {
+    command = WtCommand.READ
+    request = readRequest.ub?.toInternal() ?: WtUb()
+    workMode = readRequest.debug.toWorkMode()
+    stubCase = readRequest.debug.toStubCase()
+}
 
-fun DeleteRequest.asContext(): WtContext = WtContext(
-    command = WtCommand.DELETE,
-    request = ub.toInternal(),
-    workMode = debug.toWorkMode(),
-    stubCase = debug.toStubCase()
-)
+fun WtContext.fromTransport(updateRequest: UpdateRequest) {
+    command = WtCommand.UPDATE
+    request = updateRequest.ub?.toInternal() ?: WtUb()
+    workMode = updateRequest.debug.toWorkMode()
+    stubCase = updateRequest.debug.toStubCase()
+}
 
+fun WtContext.fromTransport(deleteRequest: DeleteRequest) {
+    command = WtCommand.DELETE
+    request = deleteRequest.ub?.toInternal() ?: WtUb()
+    workMode = deleteRequest.debug.toWorkMode()
+    stubCase = deleteRequest.debug.toStubCase()
+}
 
-fun SearchRequest.asContext(): WtContext = WtContext(
-    command = WtCommand.SEARCH,
-    filterRequest = ubFilter.toInternal(),
-    workMode = debug.toWorkMode(),
-    stubCase = debug.toStubCase()
-)
+fun WtContext.fromTransport(searchRequest: SearchRequest) {
+    command = WtCommand.SEARCH
+    filterRequest = searchRequest.ubFilter.toInternal()
+    workMode = searchRequest.debug.toWorkMode()
+    stubCase = searchRequest.debug.toStubCase()
+}
 
 private fun CreateObject?.toInternal(): WtUb = if (this == null) WtUb() else WtUb(
     ubMeterReadings = this.meterReadings?.asUbMeterReadings() ?: emptyList(),

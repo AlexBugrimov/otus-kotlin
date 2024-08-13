@@ -1,0 +1,19 @@
+ktor:
+  development: true
+  deployment:
+    port: 8080
+  watch:
+    - classes
+    - resources
+  application:
+    modules:
+      - "ru.bugrimov.wt.ktor.ApplicationKt.module"
+#  urls:
+#    - "http://127.0.0.1:8080/v1"
+#    - "http://0.0.0.0:8080/v1"
+#    - "http://192.168.0.182:8080/v1"
+
+wild-tenants:
+  repository:
+    test: "in-memory"
+    prod: "$DB_TYPE_PROD:in-memory"
