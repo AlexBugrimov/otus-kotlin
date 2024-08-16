@@ -1,4 +1,4 @@
-package ru.bugrimov.windtenants.common.stubs
+package ru.bugrimov.wt.common.stubs
 
 enum class WtStubs {
     NONE,

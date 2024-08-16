@@ -5,7 +5,7 @@ plugins {
 
 sourceSets {
     main {
-        java.srcDir(layout.buildDirectory.dir("generate-resources/main/src/main/kotlin"))
+        kotlin.srcDir(layout.buildDirectory.dir("generate-resources/main/src/main/kotlin"))
     }
 }
 

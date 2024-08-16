@@ -1,4 +1,4 @@
-package ru.bugrimov.windtenants.api.v1
+package ru.bugrimov.wt.api.v1
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature

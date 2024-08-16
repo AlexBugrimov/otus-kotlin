@@ -1,4 +1,4 @@
-package ru.bugrimov.windtenants.common.models
+package ru.bugrimov.wt.common.models
 
 enum class WtCommand {
     NONE,

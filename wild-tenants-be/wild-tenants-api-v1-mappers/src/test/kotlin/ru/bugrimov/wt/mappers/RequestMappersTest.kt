@@ -8,8 +8,9 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.Month
 import ru.bugrimov.wild_tenants.be.api.v1.models.*
-import ru.bugrimov.windtenants.common.models.*
-import ru.bugrimov.windtenants.common.stubs.WtStubs
+import ru.bugrimov.wt.common.WtContext
+import ru.bugrimov.wt.common.models.*
+import ru.bugrimov.wt.common.stubs.WtStubs
 import java.math.BigDecimal
 
 class RequestMappersTest : StringSpec({
@@ -29,7 +30,8 @@ class RequestMappersTest : StringSpec({
             ),
         )
 
-        val context = createRequest.asContext()
+        val context = WtContext()
+        context.fromTransport(createRequest)
 
         context.shouldNotBeNull {
             stubCase shouldBeEqual WtStubs.SUCCESS
@@ -71,7 +73,8 @@ class RequestMappersTest : StringSpec({
             ub = ReadObject(id = "UR-123456")
         )
 
-        val context = readRequest.asContext()
+        val context = WtContext()
+        context.fromTransport(readRequest)
         val request = context.request
         request.shouldNotBeNull()
         request.id shouldBe WtUbId("UR-123456")
@@ -87,7 +90,9 @@ class RequestMappersTest : StringSpec({
             )
         )
 
-        val context = updateRequest.asContext()
+        val context = WtContext()
+        context.fromTransport(updateRequest)
+
         val request = context.request
         request.shouldNotBeNull()
         request.id shouldBe WtUbId("UR-121212")
@@ -113,7 +118,9 @@ class RequestMappersTest : StringSpec({
             )
         )
 
-        val context = deleteRequest.asContext()
+        val context = WtContext()
+        context.fromTransport(deleteRequest)
+
         val request = context.request
         request.shouldNotBeNull()
         request.id shouldBe WtUbId("UR-131313")
@@ -129,7 +136,9 @@ class RequestMappersTest : StringSpec({
             )
         )
 
-        val context = searchRequest.asContext()
+        val context = WtContext()
+        context.fromTransport(searchRequest)
+
         context.filterRequest shouldBe WtUbFilter("some string", ownerId = WtUserId("USER-01"))
     }
 })

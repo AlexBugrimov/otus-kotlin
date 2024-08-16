@@ -24,11 +24,22 @@ plugins {
 rootProject.name = "wild-tenants-be"
 
 include(
-    "app",
-    "wild-tenants-api-v1-jackson",
-    "wild-tenants-api-v1-mappers",
-    "wild-tenants-common"
+
+    ":wild-tenants-api-v1-jackson",
+    ":wild-tenants-api-log",
+
+    ":wild-tenants-app-ktor",
+    ":wild-tenants-app-common",
+    ":wild-tenants-api-v1-mappers",
+
+    ":wild-tenants-biz",
+    ":wild-tenants-common",
+    ":wild-tenants-stubs",
+
+    ":wild-tenants-repo-common",
+    ":wild-tenants-repo-in-memory",
+    ":wild-tenants-repo-stubs",
+    ":wild-tenants-repo-tests"
 )
-include()
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

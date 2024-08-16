@@ -1,4 +1,4 @@
-package ru.bugrimov.windtenants.common
+package ru.bugrimov.wt.common
 
 import kotlinx.datetime.Instant
 
