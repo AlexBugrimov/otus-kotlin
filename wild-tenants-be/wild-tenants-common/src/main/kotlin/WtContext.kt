@@ -18,5 +18,11 @@ data class WtContext(
     var response: WtUb = WtUb.NONE,
     var corSettings: WtCorSettings = WtCorSettings(),
     var ubsResponse: MutableList<WtUb> = mutableListOf(),
+
+    var ubValidating: WtUb = WtUb(),
+    var ubFilterValidating: WtUbFilter = WtUbFilter(),
+    var ubValidated: WtUb = WtUb(),
+    var ubFilterValidated: WtUbFilter = WtUbFilter(),
+
     val errors: MutableList<WtError> = mutableListOf(),
 )
