@@ -122,8 +122,8 @@ private fun UbDebug?.toStubCase(): WtStubs = when (this?.stub) {
     RequestDebugStubs.SUCCESS -> WtStubs.SUCCESS
     RequestDebugStubs.NOT_FOUND -> WtStubs.NOT_FOUND
     RequestDebugStubs.BAD_ID -> WtStubs.BAD_ID
-    RequestDebugStubs.BAD_TITLE -> WtStubs.BAD_TITLE
-    RequestDebugStubs.BAD_DESCRIPTION -> WtStubs.BAD_DESCRIPTION
+    RequestDebugStubs.BAD_TITLE -> WtStubs.BAD_METER_READING
+    RequestDebugStubs.BAD_DESCRIPTION -> WtStubs.BAD_PERIOD
     RequestDebugStubs.BAD_VISIBILITY -> WtStubs.BAD_VISIBILITY
     RequestDebugStubs.CANNOT_DELETE -> WtStubs.CANNOT_DELETE
     RequestDebugStubs.BAD_SEARCH_STRING -> WtStubs.BAD_SEARCH_STRING

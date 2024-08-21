@@ -3,9 +3,9 @@ package ru.bugrimov.wt.common.models
 import kotlin.jvm.JvmInline
 
 @JvmInline
-value class WtUbLock(private val id: String) {
+value class WtUbLock(private val lock: String) {
 
-    fun asString() = id
+    fun asString() = lock
 
     companion object {
         val NONE = WtUbLock("")

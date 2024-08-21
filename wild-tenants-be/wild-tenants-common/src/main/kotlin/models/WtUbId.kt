@@ -1,9 +1,7 @@
 package ru.bugrimov.wt.common.models
 
-import kotlin.jvm.JvmInline
-
 @JvmInline
-value class WtUbId(private val id: String?) {
+value class WtUbId(val id: String) {
 
     fun asString() = id
 
