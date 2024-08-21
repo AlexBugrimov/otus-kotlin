@@ -8,7 +8,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
-abstract class UbRepoBase : IRepoWt {
+abstract class UbRepoBase : IRepoUb {
 
     protected suspend fun tryUbMethod(
         timeout: Duration = 10.seconds,

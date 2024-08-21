@@ -11,7 +11,7 @@ data class UbPeriod(
     val year: Year = 1900
 ) {
 
-    fun asDate() = LocalDate.of(year, month, 28)
+    fun asDate(): LocalDate = LocalDate.of(year, month, 1)
 
     companion object {
         val CURRENT: UbPeriod =

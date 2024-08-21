@@ -36,6 +36,7 @@ include(
     ":wild-tenants-common",
     ":wild-tenants-stubs",
 
+    ":wild-tenants-repo-postgres",
     ":wild-tenants-repo-common",
     ":wild-tenants-repo-in-memory",
     ":wild-tenants-repo-stubs",

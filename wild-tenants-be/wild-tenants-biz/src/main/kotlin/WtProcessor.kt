@@ -3,13 +3,16 @@ package ru.bugrimov.wt.biz
 import ru.bugrimov.wt.biz.general.initStatus
 import ru.bugrimov.wt.biz.general.operation
 import ru.bugrimov.wt.biz.general.stubs
+import ru.bugrimov.wt.biz.repo.*
 import ru.bugrimov.wt.biz.stubs.*
 import ru.bugrimov.wt.biz.validation.*
 import ru.bugrimov.wt.common.WtContext
 import ru.bugrimov.wt.common.WtCorSettings
 import ru.bugrimov.wt.common.models.WtCommand
+import ru.bugrimov.wt.common.models.WtState
 import ru.bugrimov.wt.common.models.WtUbId
 import ru.bugrimov.wt.common.models.WtUbLock
+import ru.bugrimov.wt.lib.cor.chain
 import ru.bugrimov.wt.lib.cor.rootChain
 import ru.bugrimov.wt.lib.cor.worker
 
@@ -37,6 +40,12 @@ class WtProcessor(
                 validatePeriod("Проверка периода")
                 finishValidation("Успешное завершение процедуры валидации")
             }
+            chain {
+                title = "Логика сохранения"
+                repoPrepareCreate("Подготовка объекта для сохранения")
+                repoCreate("Создание объявления в БД")
+            }
+            prepareResult("Подготовка ответа")
         }
         operation("Получить квитанцию", WtCommand.READ) {
             stubs("Обработка заглушек") {
@@ -52,6 +61,16 @@ class WtProcessor(
                 validateIdProperFormat("Проверка формата идентификатора")
                 finishValidation("Успешное завершение процедуры валидации")
             }
+            chain {
+                title = "Логика чтения"
+                repoRead("Чтение квитанции из БД")
+                worker {
+                    title = "Подготовка ответа для Read"
+                    on { state == WtState.RUNNING }
+                    handle { ubRepoDone = ubRepoRead }
+                }
+            }
+            prepareResult("Подготовка ответа")
         }
         operation("Изменить квитанцию", WtCommand.UPDATE) {
             stubs("Обработка заглушек") {
@@ -75,6 +94,14 @@ class WtProcessor(
                 validatePeriod("Проверка периода")
                 finishValidation("Успешное завершение процедуры валидации")
             }
+            chain {
+                title = "Логика сохранения"
+                repoRead("Чтение квитанции из БД")
+                checkLock("Проверяем консистентность по оптимистичной блокировке")
+                repoPrepareUpdate("Подготовка квитанции для обновления")
+                repoUpdate("Обновление квитанции в БД")
+            }
+            prepareResult("Подготовка ответа")
         }
         operation("Удалить квитанцию", WtCommand.DELETE) {
             stubs("Обработка заглушек") {
@@ -91,6 +118,14 @@ class WtProcessor(
                 validateLockProperFormat("Проверка формата lock")
                 finishValidation("Успешное завершение процедуры валидации")
             }
+            chain {
+                title = "Логика удаления"
+                repoRead("Чтение квитанции из БД")
+                checkLock("Проверяем консистентность по оптимистичной блокировке")
+                repoPrepareDelete("Подготовка объекта для удаления")
+                repoDelete("Удаление квитанции из БД")
+            }
+            prepareResult("Подготовка ответа")
         }
         operation("Поиск квитанции", WtCommand.SEARCH) {
             stubs("Обработка заглушек") {
@@ -105,6 +140,8 @@ class WtProcessor(
 
                 finishAdFilterValidation("Успешное завершение процедуры валидации")
             }
+            repoSearch("Поиск квитанции в БД по фильтру")
+            prepareResult("Подготовка ответа")
         }
     }.build()
 }
