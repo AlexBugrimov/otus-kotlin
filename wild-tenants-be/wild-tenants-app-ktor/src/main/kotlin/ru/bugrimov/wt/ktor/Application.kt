@@ -6,7 +6,6 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import ru.bugrimov.wt.api.v1.apiV1Mapper
-import ru.bugrimov.wt.app.common.AppSettings
 import ru.bugrimov.wt.ktor.plugins.settings
 import ru.bugrimov.wt.ktor.v1.v1Ub
 import ru.bugrimov.wt.ktor.v1.wsHandlerV1

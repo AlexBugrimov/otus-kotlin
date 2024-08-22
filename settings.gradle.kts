@@ -13,5 +13,6 @@ includeBuild("lessons")
 includeBuild("wild-tenants-be")
 includeBuild("wild-tenants-libs")
 includeBuild("wild-tenants-states")
+includeBuild("wild-tenants-tests")
 
 rootProject.name = "wild-tenants-app"

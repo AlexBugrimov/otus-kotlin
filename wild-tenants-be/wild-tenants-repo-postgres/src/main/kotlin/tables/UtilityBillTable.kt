@@ -28,8 +28,8 @@ class UtilityBillTable(name: String = "utility_bill") : Table(name) {
             id = WtUbId(res[ubId].toString()),
             ownerId = WtUserId(res[owner].toString()),
             ubPeriod = UbPeriod(res[month], res[year]),
-            ubMeterReadings = meterReadingTable.select(meterReadingTable.ubId eq ubId)
-                .map { meterReadingTable.from(it) },
+            ubMeterReadings = res[ubId].toString().let { meterReadingTable.select(meterReadingTable.ubId eq it)
+                .map { mr -> meterReadingTable.from(mr) } } ,
             lock = WtUbLock(res[lock]),
         )
     }

@@ -24,6 +24,7 @@ class WtProcessor(
 
     private val businessChain = rootChain {
         initStatus("Инициализация статуса")
+        initRepo("Инициализация репозитория")
         operation("Создание квитанции", WtCommand.CREATE) {
             stubs("Обработка заглушек") {
                 stubCreateSuccess("Имитация успешной обработки", corSettings)
@@ -43,7 +44,7 @@ class WtProcessor(
             chain {
                 title = "Логика сохранения"
                 repoPrepareCreate("Подготовка объекта для сохранения")
-                repoCreate("Создание объявления в БД")
+                repoCreate("Создание квитанции в БД")
             }
             prepareResult("Подготовка ответа")
         }

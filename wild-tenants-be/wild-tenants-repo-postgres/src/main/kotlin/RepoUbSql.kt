@@ -6,18 +6,20 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import ru.bugrimov.wt.backend.repo.postgresql.tables.MeterReadingTable
 import ru.bugrimov.wt.backend.repo.postgresql.tables.UtilityBillTable
 import ru.bugrimov.wt.common.helpers.asWtError
 import ru.bugrimov.wt.common.models.*
 import ru.bugrimov.wt.common.repository.*
 import ru.otus.otuskotlin.marketplace.repo.common.IRepoUbInitialize
 
-class RepoUbSql (
+class RepoUbSql(
     properties: SqlProperties,
     private val randomUuid: () -> String = { uuid4().toString() }
 ) : IRepoUbInitialize {
 
     private val utilityBillTable = UtilityBillTable("${properties.schema}.${properties.utilityBillTable}")
+    private val meterReadingTable = MeterReadingTable("${properties.schema}.${properties.meterReadingTable}")
 
     private val driver = when {
         properties.url.startsWith("jdbc:postgresql://") -> "org.postgresql.Driver"

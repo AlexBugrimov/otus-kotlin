@@ -9,9 +9,9 @@ data class WtCorSettings(
     val loggerProvider: LoggerProvider = LoggerProvider(),
     val stateSettings: WtStatesCorSettings = WtStatesCorSettings(),
     val wsSessions: IWsSessionRepo = IWsSessionRepo.NONE,
-    val stubRepository: IRepoUb = IRepoUb.NONE,
-    val testRepository: IRepoUb = IRepoUb.NONE,
-    val prodRepository: IRepoUb = IRepoUb.NONE,
+    val repoStub: IRepoUb = IRepoUb.NONE,
+    val repoTest: IRepoUb = IRepoUb.NONE,
+    val repoProd: IRepoUb = IRepoUb.NONE,
 ) {
 
     companion object {

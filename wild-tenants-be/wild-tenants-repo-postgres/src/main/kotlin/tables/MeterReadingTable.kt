@@ -41,7 +41,7 @@ class MeterReadingTable(name: String = "meter_reading") : Table(name) {
         it[volumeForPeriod] = meterReading.volumeForPeriod
         it[accruedSum] = meterReading.accruedSum
         it[paidAmount] = meterReading.paidAmount
-        id.asString().also { it[ubId] = it }
+        it[ubId] = id.asString()
     }
 }
 
