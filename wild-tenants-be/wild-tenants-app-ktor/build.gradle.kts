@@ -32,6 +32,7 @@ dependencies {
     implementation(projects.wildTenantsApiV1Jackson)
     implementation(projects.wildTenantsApiV1Mappers)
     implementation(projects.wildTenantsRepoStubs)
+    implementation(projects.wildTenantsRepoPostgres)
     implementation(libs.ktor.client.negotiation)
     implementation(kotlin("stdlib-common"))
     implementation(libs.ktor.server.core)

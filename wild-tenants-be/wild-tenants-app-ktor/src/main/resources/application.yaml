@@ -1,19 +1,25 @@
 ktor:
   development: true
   deployment:
-    port: 8080
+    port: 8081
   watch:
     - classes
     - resources
   application:
     modules:
       - "ru.bugrimov.wt.ktor.ApplicationKt.module"
-#  urls:
-#    - "http://127.0.0.1:8080/v1"
-#    - "http://0.0.0.0:8080/v1"
-#    - "http://192.168.0.182:8080/v1"
+  urls:
+    - "http://127.0.0.1:8081/v1"
+    - "http://0.0.0.0:8081/v1"
 
 wild-tenants:
   repository:
-    test: "in-memory"
-    prod: "$DB_TYPE_PROD:in-memory"
+    test: "psql"
+    prod: "$DB_TYPE_PROD:psql"
+    psql:
+      schema: public
+      database: "$WT_DB:wt_db"
+      host: "$WT_HOST:localhost"
+      port: "$WT_PORT:5432"
+      user: "$WT_USER:postgres"
+      password: "$WT_PASS:wt_pass"

@@ -13,9 +13,9 @@ fun Application.settings(): WtAppSettings {
     val corSettings = WtCorSettings(
         loggerProvider = loggerProvider,
         wsSessions = KtorWsSessionRepo(),
-        testRepository = getDatabaseConf(UbDbType.TEST),
-        prodRepository = getDatabaseConf(UbDbType.PROD),
-        stubRepository = WtRepoStub(),
+        repoTest = getDatabaseConf(UbDbType.TEST),
+        repoProd = getDatabaseConf(UbDbType.PROD),
+        repoStub = WtRepoStub(),
         stateSettings = WtStatesCorSettings(loggerProvider = loggerProvider),
     )
     return WtAppSettings(

@@ -5,6 +5,7 @@ import ru.bugrimov.wild_tenants.be.api.v1.models.*
 import ru.bugrimov.wt.common.WtContext
 import ru.bugrimov.wt.common.models.*
 import ru.bugrimov.wt.common.stubs.WtStubs
+import java.math.BigDecimal
 
 fun WtContext.fromTransport(request: IRequest) = when (request) {
     is CreateRequest -> fromTransport(request)
@@ -55,17 +56,17 @@ private fun CreateObject?.toInternal(): WtUb = if (this == null) WtUb() else WtU
     ubPeriod = this.period?.asUbPeriod() ?: UbPeriod()
 )
 
-private fun ReadObject?.toInternal(): WtUb = if (this == null) WtUb() else WtUb(id = WtUbId(id))
+private fun ReadObject?.toInternal(): WtUb = if (this == null) WtUb() else WtUb(id = WtUbId(id = id!!))
 
 private fun UpdateObject?.toInternal(): WtUb = if (this == null) WtUb() else WtUb(
-    id = WtUbId(id),
+    id = WtUbId(id!!),
     lock = this.lock?.let { WtUbLock(it) } ?: WtUbLock.NONE,
     ubMeterReadings = this.meterReadings?.asUbMeterReadings() ?: emptyList(),
     ubPeriod = this.period?.asUbPeriod() ?: UbPeriod()
 )
 
 private fun DeleteObject?.toInternal(): WtUb = if (this == null) WtUb() else WtUb(
-    id = WtUbId(id),
+    id = WtUbId(id!!),
     lock = this.lock?.let { WtUbLock(it) } ?: WtUbLock.NONE,
 )
 
@@ -74,7 +75,7 @@ private fun SearchFilter?.toInternal(): WtUbFilter = if (this == null) WtUbFilte
     ownerId = this.ownerId?.let { WtUserId(it) } ?: WtUserId.NONE
 )
 
-private fun Period.asUbPeriod(): UbPeriod = UbPeriod(this.month.ubMonth(), this.year ?: 1900)
+private fun Period.asUbPeriod(): UbPeriod = UbPeriod(this.month.ubMonth() ?: java.time.Month.JANUARY, this.year ?: 1900)
 
 private fun Period.Month?.ubMonth(): Month? = when (this) {
     Period.Month.JAN -> Month.JANUARY
@@ -96,10 +97,10 @@ private fun List<MeterReading>.asUbMeterReadings(): List<UbMeterReading> {
     return this.map {
         UbMeterReading(
             name = it.name.asMeterReadingName(),
-            indicatedValue = it.value,
-            volumeForPeriod = it.volumeForPeriod,
-            accruedSum = it.accruedSum,
-            paidAmount = it.paidAmount
+            indicatedValue = it.value ?: BigDecimal.ZERO,
+            volumeForPeriod = it.volumeForPeriod ?: BigDecimal.ZERO,
+            accruedSum = it.accruedSum ?: BigDecimal.ZERO,
+            paidAmount = it.paidAmount ?: BigDecimal.ZERO
         )
     }
 }

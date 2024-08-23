@@ -15,6 +15,8 @@ coroutines = "1.8.0"
 binaryCompabilityValidator = "0.13.2"
 logback = "1.5.6"
 kermit = "2.0.4"
+liquibase = "4.27.0"
+exposed = "0.50.0"
 
 [libraries]
 jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
@@ -35,9 +37,7 @@ kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref 
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.2.1" }
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
-testcontainers-rabbitmq = { module = "org.testcontainers:rabbitmq", version.ref = "testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
-testcontainers-cassandra = { module = "org.testcontainers:cassandra", version.ref = "testcontainers" }
 
 # Ktor
 ktor-network = { module = "io.ktor:ktor-network", version.ref = "ktor" }
@@ -79,18 +79,20 @@ wt-logs-socket = { module = "ru.bugrimov.wild_tenants.libs:wild-tenants-lib-logg
 
 # Database
 db-cache4k = "io.github.reactivecircus.cache4k:cache4k:0.13.0"
+db-postgres = "org.postgresql:postgresql:42.7.3"
+db-hikari = "com.zaxxer:HikariCP:5.1.0"
+db-exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+db-exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
+db-exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
 
-#mkpl-logs-common = { module = "ru.otus.otuskotlin.marketplace.libs:ok-marketplace-lib-logging-common", version.ref = "mkpl" }
-#mkpl-logs-kermit = { module = "ru.otus.otuskotlin.marketplace.libs:ok-marketplace-lib-logging-kermit", version.ref = "mkpl" }
-#mkpl-logs-logback = { module = "ru.otus.otuskotlin.marketplace.libs:ok-marketplace-lib-logging-logback", version.ref = "mkpl" }
-#mkpl-logs-socket = { module = "ru.otus.otuskotlin.marketplace.libs:ok-marketplace-lib-logging-socket", version.ref = "mkpl" }
-#mkpl-cor = { module = "ru.otus.otuskotlin.marketplace.libs:ok-marketplace-lib-cor", version.ref = "mkpl" }
-#mkpl-state-common = { module = "ru.otus.otuskotlin.marketplace.state:ok-marketplace-states-common", version.ref = "mkpl" }
-#mkpl-state-biz = { module = "ru.otus.otuskotlin.marketplace.state:ok-marketplace-states-biz", version.ref = "mkpl" }
-
+# Liquidbase
+liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
+liquibase-picocli = "info.picocli:picocli:4.7.5"
+liquibase-snakeyml = "org.yaml:snakeyaml:1.33"
 
 [bundles]
 kotest = ["kotest-junit5", "kotest-core", "kotest-datatest", "kotest-property"]
+exposed = ["db-exposed-core", "db-exposed-dao", "db-exposed-jdbc"]
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -99,6 +101,8 @@ openapi-generator = { id = "org.openapi.generator", version.ref = "openapi-gener
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+liquibase = { id = "org.liquibase.gradle", version = "2.2.2" }
+
 # Docker
 muschko-remote = { id = "com.bmuschko.docker-remote-api", version.ref = "muschko" }
 muschko-java = { id = "com.bmuschko.docker-java-application", version.ref = "muschko" }

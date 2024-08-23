@@ -44,23 +44,14 @@ class RequestMappersTest : StringSpec({
                     UbMeterReading(
                         name = MeterReadingName.HOT_WATER,
                         indicatedValue = BigDecimal(200),
-                        volumeForPeriod = null,
-                        accruedSum = null,
-                        paidAmount = null
                     ),
                     UbMeterReading(
                         name = MeterReadingName.COLD_WATER,
                         indicatedValue = BigDecimal(300),
-                        volumeForPeriod = null,
-                        accruedSum = null,
-                        paidAmount = null
                     ),
                     UbMeterReading(
                         name = MeterReadingName.ELECTRICITY,
                         indicatedValue = BigDecimal(7300),
-                        volumeForPeriod = null,
-                        accruedSum = null,
-                        paidAmount = null
                     ),
                 )
             }
@@ -102,9 +93,6 @@ class RequestMappersTest : StringSpec({
             UbMeterReading(
                 name = MeterReadingName.COLD_WATER,
                 indicatedValue = BigDecimal(301),
-                volumeForPeriod = null,
-                accruedSum = null,
-                paidAmount = null
             )
         )
     }
